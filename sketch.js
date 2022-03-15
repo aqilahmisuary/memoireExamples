@@ -10,6 +10,8 @@ var world;
 var balls = [];
 var squares = [];
 
+var button;
+
 var ground;
 var mConstraint;
 
@@ -39,6 +41,8 @@ function setup(){
   //Generator state
   generatorState = false;
 
+  button = createButton('Start');
+
   //Text
   textFont(mainFont);
   textSize(60);
@@ -48,6 +52,7 @@ function setup(){
   tune = new Tune();
   tune.loadScale('degung1');
   tune.tonicize(363);
+
 
   //freeverb
   freeverb.dampening = 1000;
@@ -74,6 +79,7 @@ function draw(){
   //translate(-width/2,-height/2,0); //moves our drawing origin to the top left corner
   ambientLight(200);
  // directionalLight(255,255,255,0,0,1);
+
   
   if(generatorState == false) {
     push();
@@ -85,9 +91,13 @@ function draw(){
     textSize(60);
     text('Generator', 0, -50);
     textSize(30);
-    text('Press  Spacebar', 0, 100);
+    // text('Press  to Start', 0, 100);
+    
+    button.position(windowWidth/2,windowHeight/2);
+    button.mousePressed(buttonStart);
     pop();
   } else {
+
 
     for(let i = 0; i < balls.length; i++) {
       balls[i].show();
@@ -123,13 +133,15 @@ function mouseDragged() {
 
 }
 
-async function keyPressed() {
+async function buttonStart() {
 
-  //Press spacebar to start
+  //Press mouse to start
   if (keyCode == 32 || generatorState === false ) {  
     generatorState = true;
+    button.hide();
   }
 
   await Tone.start();
-  console.log('audio is ready')
+  console.log('audio is ready');
+  
 }
